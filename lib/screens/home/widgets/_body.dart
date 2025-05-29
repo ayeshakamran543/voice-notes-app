@@ -1,4 +1,4 @@
-part of '../onboarding.dart';
+part of '../home.dart';
 
 class _Body extends StatelessWidget {
   const _Body();
@@ -7,6 +7,23 @@ class _Body extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppTheme.c.primaryBase,
+      appBar: AppBar(
+        title: const Text("Home"),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.logout),
+            onPressed: () async {
+              await AuthService().signOut();
+              Navigator.pushNamedAndRemoveUntil(
+                // ignore: use_build_context_synchronously
+                context,
+                '/login',
+                (route) => false,
+              );
+            },
+          ),
+        ],
+      ),
       body: SafeArea(
         child: Padding(
           padding: Space.hf(16),
@@ -14,14 +31,9 @@ class _Body extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Space.xm!,
-              Image.asset(
-                'assets/svgs/onboarding.png',
-                width: 280.w,
-                height: 280.h,
-              ),
-              Space.yf(24),
+
               Text(
-                'Jot Down anything you want to achieve, today or in the future',
+                'Welcome to Noteee',
                 style: AppText.h3b!.cl(AppTheme.c.neutralWhite!),
                 textAlign: TextAlign.center,
               ),

@@ -1,4 +1,4 @@
-part of '../login.dart';
+part of '../register.dart';
 
 class _Body extends StatelessWidget {
   const _Body();
@@ -7,17 +7,24 @@ class _Body extends StatelessWidget {
   Widget build(BuildContext context) {
     final screenState = _ScreenState.s(context, true);
 
-    Future<void> login() async {
+    Future<void> register() async {
       if (screenState.formKey.currentState?.saveAndValidate() ?? false) {
         final values = screenState.formKey.currentState!.value;
         final email = values[_FormKeys.email];
         final password = values[_FormKeys.password];
+        final confirmPassword = values[_FormKeys.confirmPassword];
+
+        if (password != confirmPassword) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Passwords do not match.')),
+          );
+          return;
+        }
 
         try {
-          await AuthService().signInWithEmail(email, password);
-          // Navigate to home screen after successful login
+          await AuthService().registerWithEmail(email, password);
           // ignore: use_build_context_synchronously
-          Navigator.pushReplacementNamed(context, '/home');
+          Navigator.pop(context);
         } catch (e) {
           ScaffoldMessenger.of(
             // ignore: use_build_context_synchronously
@@ -27,12 +34,9 @@ class _Body extends StatelessWidget {
       }
     }
 
-    Future<void> googleLogin() async {
+    Future<void> googleRegister() async {
       try {
         await AuthService().signInWithGoogle();
-        // Navigate to home screen after successful Google login
-        // ignore: use_build_context_synchronously
-        Navigator.pushReplacementNamed(context, '/home');
       } catch (e) {
         ScaffoldMessenger.of(
           // ignore: use_build_context_synchronously
@@ -53,25 +57,36 @@ class _Body extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Space.yf(91),
-                  Text('Let’s Login', style: AppText.h1b),
+                  Space.yf(60),
+                  Text('Register', style: AppText.h1b),
                   Space.yf(16),
                   Text(
-                    'And notes your idea',
+                    'And start taking notes',
                     style: AppText.b2!.cl(AppTheme.c.neutralBaseGrey!),
                   ),
                   Space.yf(32),
                   AppTextField(
+                    name: _FormKeys.fullName,
+                    label: 'Full Name',
+                    hint: 'Example: John Doe',
+                    isPass: false,
+                    validator: FormBuilderValidators.compose([
+                      FormBuilderValidators.required(),
+                      FormBuilderValidators.minLength(3),
+                    ]),
+                  ),
+                  Space.yf(16),
+                  AppTextField(
                     name: _FormKeys.email,
                     label: 'Email Address',
                     hint: 'Example: johndoe@gmail.com',
-                    isPass: false,
                     validator: FormBuilderValidators.compose([
                       FormBuilderValidators.required(),
                       FormBuilderValidators.email(),
                     ]),
+                    isPass: false,
                   ),
-                  Space.yf(32),
+                  Space.yf(16),
                   AppTextField(
                     name: _FormKeys.password,
                     label: 'Password',
@@ -82,23 +97,19 @@ class _Body extends StatelessWidget {
                       FormBuilderValidators.minLength(6),
                     ]),
                   ),
-                  Space.yf(12),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      TextButton(
-                        onPressed: () {},
-                        child: Text(
-                          'Forgot Password',
-                          style: AppText.b1bm!
-                              .cl(AppTheme.c.primaryBase!)
-                              .copyWith(decoration: TextDecoration.underline),
-                        ),
-                      ),
-                    ],
+                  Space.yf(16),
+                  AppTextField(
+                    name: _FormKeys.confirmPassword,
+                    label: 'Confirm Password',
+                    hint: '**********',
+                    isPass: true,
+                    validator: FormBuilderValidators.compose([
+                      FormBuilderValidators.required(),
+                      FormBuilderValidators.minLength(6),
+                    ]),
                   ),
                   Space.yf(32),
-                  AppButton(label: 'Login', onPressed: login),
+                  AppButton(label: 'Register', onPressed: register),
                   Space.yf(16),
                   Row(
                     children: [
@@ -119,7 +130,7 @@ class _Body extends StatelessWidget {
                   Space.yf(16),
                   AppButton(
                     label: 'Login with Google',
-                    onPressed: googleLogin,
+                    onPressed: googleRegister,
                     buttonType: ButtonType.outlineIcon,
                     iconPath: 'assets/svgs/google.svg',
                   ),
@@ -128,14 +139,14 @@ class _Body extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        'Don’t have an account?',
+                        'Already have an account?',
                         style: AppText.b2!.cl(AppTheme.c.neutralDarkGrey!),
                       ),
                       SizedBox(width: 8),
                       GestureDetector(
-                        onTap: () => Navigator.pushNamed(context, '/register'),
+                        onTap: () => Navigator.pop(context),
                         child: Text(
-                          'Register Here',
+                          'Login',
                           style: AppText.b2b!.cl(AppTheme.c.primaryBase!),
                         ),
                       ),

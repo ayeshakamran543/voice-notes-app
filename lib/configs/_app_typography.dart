@@ -36,7 +36,10 @@ class AppText {
   static init(BuildContext context) {
     ScreenUtil.init(context, designSize: const Size(360, 780));
     const b = FontWeight.bold;
-    TextStyle baseStyle = const TextStyle(fontFamily: fontFamily);
+    TextStyle baseStyle = TextStyle(
+      fontFamily: fontFamily,
+      color: AppTheme.c.neutralBlack!,
+    );
 
     // text-3xl (40px, 110%)
     h = baseStyle.copyWith(fontSize: 40.h, height: 1.1);

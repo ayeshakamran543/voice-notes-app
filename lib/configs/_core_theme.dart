@@ -1,6 +1,6 @@
 part of 'configs.dart';
 
-const fontFamily = 'Poppins';
+const fontFamily = 'Inter';
 
 final themeLight = ThemeData(
   appBarTheme: AppBarTheme(
@@ -28,7 +28,7 @@ final themeLight = ThemeData(
     },
   ),
   colorScheme: ThemeData.light().colorScheme.copyWith(
-    secondary: AppTheme.light.primaryBase,
+    secondary: AppTheme.light.neutralWhite,
     surface: AppTheme.light.primaryBackground,
     onSurface: AppTheme.light.primaryBase,
     primary: AppTheme.light.primaryBase,

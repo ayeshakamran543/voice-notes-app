@@ -13,8 +13,8 @@ part '_state.dart';
 part 'static/_form_data.dart';
 part 'static/_form_keys.dart';
 
-class LoginScreen extends StatelessWidget {
-  const LoginScreen({super.key});
+class RegisterScreen extends StatelessWidget {
+  const RegisterScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

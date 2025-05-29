@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:noteee/router/routes.dart';
+import 'package:noteee/screens/home/home.dart';
+import 'package:noteee/screens/login/login.dart';
 import 'package:noteee/screens/onboarding/onboarding.dart';
+import 'package:noteee/screens/register/register.dart';
 
 final Map<String, Widget Function(dynamic)> appRoutes = {
   AppRoutes.onboarding: (_) => const OnboardingScreen(),
+  AppRoutes.login: (_) => const LoginScreen(),
+  AppRoutes.register: (_) => const RegisterScreen(),
+  AppRoutes.home: (_) => const HomeScreen(),
 };
 
 void navigateToScreen(BuildContext context, Widget screen) {

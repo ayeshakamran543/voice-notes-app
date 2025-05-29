@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "463288261079",
+    "project_id": "notee-df467",
+    "storage_bucket": "notee-df467.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:463288261079:android:139ca6c35c293b0f949392",
+        "android_client_info": {
+          "package_name": "com.example.noteee"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "463288261079-jv2pm355idr306qdp83guve5mr4avtms.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC4TKhpi6sXNvC7S4syeZJZrdI0ruMDk6w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "463288261079-jv2pm355idr306qdp83guve5mr4avtms.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

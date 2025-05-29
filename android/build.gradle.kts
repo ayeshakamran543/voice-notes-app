@@ -1,8 +1,21 @@
+buildscript {
+    repositories {
+        google()
+        mavenCentral()
+    }
+    dependencies {
+        classpath("com.android.tools.build:gradle:8.0.2") 
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:2.0.0") 
+        classpath("com.google.gms:google-services:4.4.2") 
+    }
+}
+
 allprojects {
     repositories {
         google()
         mavenCentral()
     }
+    
 }
 
 val newBuildDir: Directory = rootProject.layout.buildDirectory.dir("../../build").get()
@@ -16,6 +29,11 @@ subprojects {
     project.evaluationDependsOn(":app")
 }
 
-tasks.register<Delete>("clean") {
+tasks.register<Delete>("cleanBuild") {
     delete(rootProject.layout.buildDirectory)
+}
+
+
+plugins {
+    id("com.google.gms.google-services") version "4.4.2" apply false
 }
