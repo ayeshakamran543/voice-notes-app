@@ -49,6 +49,15 @@ class AuthService {
     await _auth.signOut();
     await GoogleSignIn().signOut();
   }
+
+  // === Password reset: send reset email ===
+  Future<void> sendPasswordResetEmail(String email) async {
+    try {
+      await _auth.sendPasswordResetEmail(email: email);
+    } on FirebaseAuthException catch (e) {
+      throw AuthExceptionHandler.handleException(e);
+    }
+  }
 }
 
 class AuthExceptionHandler {
@@ -66,6 +75,10 @@ class AuthExceptionHandler {
         return 'The password is too weak.';
       case 'network-request-failed':
         return 'Check your internet connection.';
+      case 'expired-action-code':
+        return 'The password reset link has expired.';
+      case 'invalid-action-code':
+        return 'The password reset code is invalid.';
       default:
         return 'An unexpected error occurred.';
     }

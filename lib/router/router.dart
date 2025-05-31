@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:noteee/router/routes.dart';
+import 'package:noteee/screens/forget_password/forget_password.dart';
 import 'package:noteee/screens/home/home.dart';
 import 'package:noteee/screens/login/login.dart';
 import 'package:noteee/screens/onboarding/onboarding.dart';
@@ -9,6 +10,8 @@ final Map<String, Widget Function(dynamic)> appRoutes = {
   AppRoutes.onboarding: (_) => const OnboardingScreen(),
   AppRoutes.login: (_) => const LoginScreen(),
   AppRoutes.register: (_) => const RegisterScreen(),
+  AppRoutes.forgetPassword: (_) => const ForgetPasswordScreen(),
+  // AppRoutes.resetPassword: (_) => const ResetPasswordScreen(),
   AppRoutes.home: (_) => const HomeScreen(),
 };
 

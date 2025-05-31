@@ -87,7 +87,9 @@ class _Body extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.pushNamed(context, '/forgot-password');
+                        },
                         child: Text(
                           'Forgot Password',
                           style: AppText.b1bm!
@@ -131,7 +133,7 @@ class _Body extends StatelessWidget {
                         'Don’t have an account?',
                         style: AppText.b2!.cl(AppTheme.c.neutralDarkGrey!),
                       ),
-                      SizedBox(width: 8),
+
                       GestureDetector(
                         onTap: () => Navigator.pushNamed(context, '/register'),
                         child: Text(
