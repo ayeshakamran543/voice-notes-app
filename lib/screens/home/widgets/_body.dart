@@ -6,46 +6,71 @@ class _Body extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppTheme.c.primaryBase,
-      appBar: AppBar(
-        title: const Text("Home"),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.logout),
-            onPressed: () async {
-              await AuthService().signOut();
-              Navigator.pushNamedAndRemoveUntil(
-                // ignore: use_build_context_synchronously
-                context,
-                '/login',
-                (route) => false,
-              );
+      // appBar: AppBar(
+      //   title: const Text("Home"),
+      //   actions: [
+      //     IconButton(
+      //       icon: const Icon(Icons.logout),
+      //       onPressed: () async {
+      //         await AuthService().signOut();
+      //         Navigator.pushNamedAndRemoveUntil(
+      //           // ignore: use_build_context_synchronously
+      //           context,
+      //           '/login',
+      //           (route) => false,
+      //         );
+      //       },
+      //     ),
+      //   ],
+      // ),
+      floatingActionButton: Transform.scale(
+        scale: 1.2,
+        child: Container(
+          margin: EdgeInsets.only(bottom: 10.h, right: 10.w),
+          child: FloatingActionButton(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(50.r),
+            ),
+            backgroundColor: AppTheme.c.primaryBase,
+            onPressed: () {
+              Navigator.pushNamed(context, '/create-note');
             },
+            child: SvgPicture.asset(
+              'assets/svgs/add_note.svg',
+              width: 24.w,
+              height: 24.h,
+            ),
           ),
-        ],
+        ),
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+
       body: SafeArea(
         child: Padding(
-          padding: Space.hf(16),
+          padding: Space.all(16, 15),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Space.xm!,
-
-              Text(
-                'Welcome to Noteee',
-                style: AppText.h3b!.cl(AppTheme.c.neutralWhite!),
-                textAlign: TextAlign.center,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  SvgPicture.asset(
+                    'assets/svgs/logo.svg',
+                    width: 85.w,
+                    height: 30.h,
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.pushNamed(context, '/setting');
+                    },
+                    child: SvgPicture.asset(
+                      'assets/svgs/settings.svg',
+                      width: 30.w,
+                      height: 30.h,
+                    ),
+                  ),
+                ],
               ),
-              Space.xm!,
-              AppButton(
-                label: 'Let’s Get Started',
-                buttonType: ButtonType.secondary,
-                onPressed: () {
-                  Navigator.pushNamed(context, '/login');
-                },
-              ),
-              Space.yf(84),
             ],
           ),
         ),

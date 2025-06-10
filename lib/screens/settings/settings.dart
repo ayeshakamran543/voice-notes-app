@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:noteee/configs/configs.dart';
+import 'package:noteee/widgets/design/buttons/app_button/app_button.dart';
 
 part 'widgets/_body.dart';
+part 'widgets/setting_row.dart';
 
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+class SettingScreen extends StatelessWidget {
+  const SettingScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

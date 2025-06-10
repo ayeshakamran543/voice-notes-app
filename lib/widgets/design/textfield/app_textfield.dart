@@ -30,6 +30,7 @@ class AppTextField extends StatefulWidget {
   final void Function()? onTap;
   final int? maxLines;
   final int? minLines;
+  final String? helperText;
 
   const AppTextField({
     super.key,
@@ -57,6 +58,7 @@ class AppTextField extends StatefulWidget {
     this.textCapitalization = TextCapitalization.sentences,
     this.maxLines,
     this.minLines = 1,
+    this.helperText,
   });
 
   @override
@@ -211,6 +213,13 @@ class AppTextFieldState extends State<AppTextField> {
             ),
           ],
         ),
+        if (widget.helperText != null) ...[
+          Space.yf(12),
+          Text(
+            widget.helperText!,
+            style: AppText.l1!.cl(AppTheme.c.neutralBaseGrey!),
+          ),
+        ],
       ],
     );
   }

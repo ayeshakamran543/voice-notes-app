@@ -16,6 +16,7 @@ class AppButton extends StatelessWidget {
   final TextStyle? textStyle;
   final ButtonType? buttonType;
   final String? iconPath;
+  final Color? borderColor;
 
   const AppButton({
     required this.label,
@@ -29,6 +30,7 @@ class AppButton extends StatelessWidget {
     super.key,
     this.textColor,
     this.iconPath,
+    this.borderColor,
   });
 
   @override
@@ -43,7 +45,10 @@ class AppButton extends StatelessWidget {
         decoration: BoxDecoration(
           border:
               buttonType == ButtonType.outlineIcon
-                  ? Border.all(color: AppTheme.c.neutralBaseGrey!, width: 1.w)
+                  ? Border.all(
+                    color: borderColor ?? AppTheme.c.neutralBaseGrey!,
+                    width: 1.w,
+                  )
                   : null,
           borderRadius: UIProps.buttonRadius,
           color:
@@ -52,7 +57,7 @@ class AppButton extends StatelessWidget {
                   : buttonType == ButtonType.secondary
                   ? AppTheme.c.neutralWhite
                   : buttonType == ButtonType.outlineIcon
-                  ? AppTheme.c.neutralWhite
+                  ? backgroundColor ?? AppTheme.c.neutralWhite
                   : backgroundColor ?? AppTheme.c.primaryBase,
         ),
         padding:
@@ -74,7 +79,7 @@ class AppButton extends StatelessWidget {
                     buttonType == ButtonType.secondary
                         ? AppTheme.c.primaryBase!
                         : buttonType == ButtonType.outlineIcon
-                        ? AppTheme.c.neutralBlack!
+                        ? textColor ?? AppTheme.c.neutralBlack!
                         : textColor ?? AppTheme.c.neutralWhite!,
                   ),
             ),
