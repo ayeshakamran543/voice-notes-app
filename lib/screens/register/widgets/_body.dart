@@ -10,6 +10,7 @@ class _Body extends StatelessWidget {
     Future<void> register() async {
       if (screenState.formKey.currentState?.saveAndValidate() ?? false) {
         final values = screenState.formKey.currentState!.value;
+        final fullName = values[_FormKeys.fullName];
         final email = values[_FormKeys.email];
         final password = values[_FormKeys.password];
         final confirmPassword = values[_FormKeys.confirmPassword];
@@ -22,9 +23,21 @@ class _Body extends StatelessWidget {
         }
 
         try {
-          await AuthService().registerWithEmail(email, password);
+          await AuthService().registerWithEmail(email, password, fullName);
+
+          // Set display name after registration
+          final user = FirebaseAuth.instance.currentUser;
+          if (user != null) {
+            await user.updateDisplayName(fullName);
+          }
+
           // ignore: use_build_context_synchronously
-          Navigator.pop(context);
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Registration successful!')),
+          );
+
+          // ignore: use_build_context_synchronously
+          Navigator.pushNamed(context, '/login');
         } catch (e) {
           ScaffoldMessenger.of(
             // ignore: use_build_context_synchronously
@@ -144,7 +157,7 @@ class _Body extends StatelessWidget {
                       ),
                       SizedBox(width: 8),
                       GestureDetector(
-                        onTap: () => Navigator.pop(context),
+                        onTap: () => {Navigator.pushNamed(context, '/login')},
                         child: Text(
                           'Login',
                           style: AppText.b2b!.cl(AppTheme.c.primaryBase!),

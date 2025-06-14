@@ -1,8 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:noteee/models/app_user/app_user_model.dart';
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   Stream<User?> get authStateChanges => _auth.authStateChanges();
 
@@ -16,17 +19,34 @@ class AuthService {
     }
   }
 
-  Future<void> registerWithEmail(String email, String password) async {
+  // ✅ Updated to take fullName and save to Firestore
+  Future<void> registerWithEmail(
+    String email,
+    String password,
+    String fullName,
+  ) async {
     try {
-      await _auth.createUserWithEmailAndPassword(
+      final userCredential = await _auth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
+
+      final user = userCredential.user!;
+      final appUser = AppUser(
+        uid: user.uid,
+        name: fullName,
+        email: email,
+        photoUrl: null,
+        password: password,
+      );
+
+      await _saveUserToFirestore(appUser);
     } on FirebaseAuthException catch (e) {
       throw AuthExceptionHandler.handleException(e);
     }
   }
 
+  // ✅ Save Google user info to Firestore if new
   Future<void> signInWithGoogle() async {
     try {
       final googleUser = await GoogleSignIn().signIn();
@@ -39,7 +59,20 @@ class AuthService {
         accessToken: googleAuth.accessToken,
       );
 
-      await _auth.signInWithCredential(credential);
+      final userCredential = await _auth.signInWithCredential(credential);
+      final user = userCredential.user!;
+
+      final userDoc = await _firestore.collection('users').doc(user.uid).get();
+
+      if (!userDoc.exists) {
+        final appUser = AppUser(
+          uid: user.uid,
+          name: user.displayName ?? '',
+          email: user.email ?? '',
+          photoUrl: user.photoURL,
+        );
+        await _saveUserToFirestore(appUser);
+      }
     } on FirebaseAuthException catch (e) {
       throw AuthExceptionHandler.handleException(e);
     }
@@ -50,13 +83,28 @@ class AuthService {
     await GoogleSignIn().signOut();
   }
 
-  // === Password reset: send reset email ===
   Future<void> sendPasswordResetEmail(String email) async {
     try {
       await _auth.sendPasswordResetEmail(email: email);
     } on FirebaseAuthException catch (e) {
       throw AuthExceptionHandler.handleException(e);
     }
+  }
+
+  // ✅ Save user info to Firestore
+  Future<void> _saveUserToFirestore(AppUser user) async {
+    await _firestore.collection('users').doc(user.uid).set(user.toMap());
+  }
+
+  // ✅ Get current user from Firestore
+  Future<AppUser?> getCurrentAppUser() async {
+    final current = _auth.currentUser;
+    if (current == null) return null;
+
+    final doc = await _firestore.collection('users').doc(current.uid).get();
+    if (!doc.exists) return null;
+
+    return AppUser.fromMap(doc.data()!);
   }
 }
 
