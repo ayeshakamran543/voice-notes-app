@@ -1,16 +1,24 @@
+import 'dart:convert';
+import 'dart:io';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:form_builder_validators/form_builder_validators.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:noteee/configs/configs.dart';
+import 'package:noteee/models/app_user/app_user_model.dart';
 import 'package:noteee/widgets/design/buttons/app_button/app_button.dart';
 import 'package:noteee/widgets/design/textfield/app_textfield.dart';
 import 'package:provider/provider.dart';
 
 part 'widgets/_body.dart';
 part '_state.dart';
-// part 'static/_form_data.dart';
-// part 'static/_form_keys.dart';
+part 'static/_form_keys.dart';
 
 class EditProfileScreen extends StatelessWidget {
   const EditProfileScreen({super.key});

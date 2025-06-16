@@ -5,4 +5,13 @@ class _ScreenState extends ChangeNotifier {
       Provider.of<_ScreenState>(context, listen: listen);
 
   final formKey = GlobalKey<FormBuilderState>();
+
+  bool _isUploadingImage = false;
+
+  bool get isUploadingImage => _isUploadingImage;
+
+  void setUploadingImage(bool value) {
+    _isUploadingImage = value;
+    notifyListeners();
+  }
 }
