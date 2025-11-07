@@ -208,7 +208,7 @@ class _BodyState extends State<_Body> {
                   ),
                 ),
 
-            Text('Checking the git branching feature.'),
+            Text('Again Checking the git branching feature.'),
           ],
         ),
       ),
