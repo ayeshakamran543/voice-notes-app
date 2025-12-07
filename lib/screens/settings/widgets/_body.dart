@@ -159,18 +159,33 @@ class _BodyState extends State<_Body> {
                               '/change-password',
                             ),
                       ),
-                      SettingRow(
-                        title: 'Text Size',
-                        type: RowType.action,
-                        iconPath: 'assets/svgs/text-size.svg',
-                        trailingText: 'Medium',
+                      Consumer<FontSizeProvider>(
+                        builder: (context, fontProvider, _) {
+                          return SettingRow(
+                            title: 'Text Size',
+                            iconPath: 'assets/svgs/text-size.svg',
+                            type: RowType.action,
+                            trailingText: fontProvider.fontSize,
+                            onTap: () {
+                              _showFontSizeSheet(context);
+                            },
+                          );
+                        },
                       ),
-                      SettingRow(
-                        title: 'Notifications',
-                        type: RowType.action,
-                        iconPath: 'assets/svgs/bell.svg',
-                        trailingText: 'Active',
+
+                      Consumer<NotificationSettingsProvider>(
+                        builder: (context, notifProvider, _) {
+                          return SettingSwitchRow(
+                            title: 'Notifications',
+                            iconPath: 'assets/svgs/bell.svg',
+                            value: notifProvider.isEnabled,
+                            onChanged: (value) {
+                              notifProvider.toggleNotification(value);
+                            },
+                          );
+                        },
                       ),
+
                       Space.yf(8),
                       Container(
                         height: 1.h,
@@ -207,8 +222,6 @@ class _BodyState extends State<_Body> {
                     ],
                   ),
                 ),
-
-            Text('Checking the git branching feature.'),
           ],
         ),
       ),

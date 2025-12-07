@@ -5,7 +5,10 @@ import 'package:flutter/services.dart';
 import 'package:navigation_history_observer/navigation_history_observer.dart';
 import 'package:noteee/configs/configs.dart' as theme;
 import 'package:noteee/core/auth/auth_wrapper.dart';
+import 'package:noteee/providers/font_size/font_size_provider.dart';
+import 'package:noteee/providers/notifications/notification_provider.dart';
 import 'package:noteee/router/router.dart';
+import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,7 +26,16 @@ void main() async {
       statusBarIconBrightness: Brightness.dark,
     ),
   );
-  runApp(const MyApp());
+  runApp(
+  MultiProvider(
+    providers: [
+      ChangeNotifierProvider(create: (_) => NotificationSettingsProvider()),
+      ChangeNotifierProvider(create: (_) => FontSizeProvider()),
+    ],
+    child: const MyApp(),
+  ),
+);
+
 }
 
 class MyApp extends StatefulWidget {

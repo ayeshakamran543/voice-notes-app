@@ -1,28 +1,31 @@
 part of '../home.dart';
 
-class _Body extends StatelessWidget {
+class _Body extends StatefulWidget {
   const _Body();
+
+  @override
+  State<_Body> createState() => _BodyState();
+}
+
+class _BodyState extends State<_Body> {
+  NotificationsServices notificationsServices = NotificationsServices();
+
+  @override
+  void initState() {
+    super.initState();
+    notificationsServices.requestNotificationPermission();
+
+    notificationsServices.isTokenRefresh();
+    notificationsServices.getDeviceToken().then((token) {
+      // You can send the token to your server or use it as needed
+      debugPrint("FCM Token: $token");
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   title: const Text("Home"),
-      //   actions: [
-      //     IconButton(
-      //       icon: const Icon(Icons.logout),
-      //       onPressed: () async {
-      //         await AuthService().signOut();
-      //         Navigator.pushNamedAndRemoveUntil(
-      //           // ignore: use_build_context_synchronously
-      //           context,
-      //           '/login',
-      //           (route) => false,
-      //         );
-      //       },
-      //     ),
-      //   ],
-      // ),
+      
       floatingActionButton: Transform.scale(
         scale: 1.2,
         child: Container(
